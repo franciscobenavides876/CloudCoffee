@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-mobile: #FAF7F2;
+  --bg-card: #FFFFFF;
+  --primary-blue: #0052CC;
+  --primary-blue-dark: #073B8C;
+  --accent-yellow-light: #FFF8DF;
+  --accent-yellow-border: #F3DC87;
+  --accent-yellow-icon: #D9A404;
+  --border-light: #EFE9DE;
+  --text-main: #1D2433;
+  --text-muted: #6B7280;
+  --text-sub: #4B5563;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor móvil con fondo claro y scroll interno */
+.consumer-container {
+  background-color: var(--bg-mobile) !important;
+  padding: 1.2rem 1rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  overflow-y: auto !important;
+}
+
+/* Ocultar barra de desplazamiento manteniendo la función */
+.consumer-container::-webkit-scrollbar {
+  display: none;
+}
+.consumer-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.consumer-content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Header superior móvil */
+.mobile-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-card);
+  padding: 0.75rem 0.9rem;
+  border-radius: 18px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  gap: 0.5rem;
+}
+
+.campus-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  overflow: hidden;
+}
+
+.campus-icon-mini {
+  font-size: 1.1rem;
+  background: var(--accent-yellow-light);
+  border: 1px solid var(--accent-yellow-border);
+  border-radius: 10px;
+  padding: 0.3rem 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.campus-text-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.campus-text-info small {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.campus-text-info h2 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.btn-mini-link {
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.btn-mini-cart {
+  background-color: var(--primary-blue);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 82, 204, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.btn-mini-cart:active {
+  transform: scale(0.96);
+}
+
+/* Buscador */
+.mobile-search-input {
+  width: 100%;
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  outline: none;
+}
+
+.mobile-search-input:focus {
+  border-color: var(--primary-blue);
+}
+
+.mobile-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+/* Filtro por Categorías (Scroll horizontal táctil) */
+.mobile-category-chips {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+  scrollbar-width: none;
+}
+
+.mobile-category-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-chip {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-sub);
+  padding: 0.45rem 0.85rem;
+  border-radius: 30px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.mobile-chip.active {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 82, 204, 0.25);
+}
+
+/* Listado de Productos en Columna Móvil */
+.mobile-catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-bottom: 1.5rem;
+}
+
+.mobile-empty-state {
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-light);
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Tarjeta individual adaptada a móvil */
+.mobile-product-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 0.9rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-header-mini {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.card-icon-box {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  background-color: var(--accent-yellow-light);
+  border: 1px solid var(--accent-yellow-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.card-details {
+  text-align: left;
+}
+
+.card-details h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  line-height: 1.25;
+}
+
+.card-details p {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  line-height: 1.35;
+  margin-top: 0.2rem;
+}
+
+.card-offer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  border-top: 1px solid var(--border-light);
+  padding-top: 0.65rem;
+}
+
+.card-offer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-mobile);
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+}
+
+.offer-cafe-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.offer-price-tag {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+}
+
+.btn-add-mini {
+  background-color: var(--primary-blue);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-add-mini:active {
+  transform: scale(0.95);
+}
+
+.btn-follow-mini {
+  background: none;
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-follow-mini.active {
+  background-color: var(--accent-yellow-light);
+  border-color: var(--accent-yellow-border);
+  color: var(--accent-yellow-icon);
+}
