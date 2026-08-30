@@ -1,4 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-mobile: #FAF7F2;
+  --bg-card: #FFFFFF;
+  --primary-blue: #0052CC;
+  --primary-blue-dark: #073B8C;
+  --accent-yellow-light: #FFF8DF;
+  --accent-yellow-border: #F3DC87;
+  --accent-yellow-icon: #D9A404;
+  --border-light: #EFE9DE;
+  --text-main: #1D2433;
+  --text-muted: #6B7280;
+  --text-sub: #4B5563;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
 * {
   box-sizing: border-box;
@@ -8,200 +23,182 @@
 
 body {
   margin: 0;
-  background-color: #02070e;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
+  background-color: #0b1320; /* Fondo oscuro exterior para resaltar el móvil */
+  color: var(--text-main);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Envoltorio exterior centrado */
+/* ==========================================================================
+   Contenedor Base del Smartphone (Marco Rígido)
+   ========================================================================== */
 .mobile-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  background-color: #02070e;
+  background-color: #0b1320;
   padding: 1.5rem;
+  box-sizing: border-box;
 }
 
-/* Marco móvil centrado verticalmente */
 .screen-container {
+  width: 385px !important;
+  min-width: 385px !important;
+  max-width: 385px !important;
+  height: 780px !important;
+  min-height: 780px !important;
+  max-height: 780px !important;
+  background-color: var(--bg-mobile);
+  border-radius: 40px;
   position: relative;
-  width: 100%;
-  max-width: 390px;
-  height: 85vh;
-  max-height: 780px;
-  border-radius: 36px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centrado vertical */
-  align-items: center;     /* Centrado horizontal */
-  padding: 2rem 1.8rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 10px #1e293b;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-/* Fondo azul petróleo puro */
+/* Fondos y círculos decorativos */
 .petroleum-background {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 85% 15%,
-    #08435d 0%,
-    #031e2d 38%,
-    #020b14 80%
-  );
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, #e8f0fe 0%, #FAF7F2 65%);
   z-index: 1;
 }
 
-/* Círculos vectoriales en el fondo */
 .thin-circle {
   position: absolute;
   border-radius: 50%;
-  border: 1.5px solid rgba(80, 203, 248, 0.25);
+  border: 1px solid rgba(0, 82, 204, 0.08);
   pointer-events: none;
   z-index: 2;
 }
 
-.thin-circle.tc-1 {
-  width: 390px;
-  height: 390px;
-  top: 15%;
-  right: -90px;
+.tc-1 {
+  width: 300px;
+  height: 300px;
+  top: -80px;
+  right: -80px;
 }
 
-.thin-circle.tc-2 {
-  width: 330px;
-  height: 330px;
-  bottom: 10%;
-  left: -110px;
+.tc-2 {
+  width: 220px;
+  height: 220px;
+  top: 40px;
+  right: -50px;
 }
 
-.thin-circle.tc-3 {
-  width: 460px;
-  height: 460px;
-  bottom: -70px;
-  left: -90px;
-  border-color: rgba(80, 203, 248, 0.12);
+.tc-3 {
+  width: 140px;
+  height: 140px;
+  bottom: 80px;
+  left: -40px;
 }
 
-/* Imagen del loro en el fondo centrado */
+/* ==========================================================================
+   Portada / Vista de Inicio
+   ========================================================================== */
 .foreground-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  position: relative;
   z-index: 3;
-  pointer-events: none;
-  opacity: 92%;
+  width: 210px;
+  height: auto;
+  margin: 2.5rem auto 0.5rem auto;
+  display: block;
+  filter: drop-shadow(0 12px 20px rgba(0, 82, 204, 0.15));
+  object-fit: contain;
 }
 
-/* Contenido y textos alineados simétricamente */
 .content {
   position: relative;
   z-index: 4;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  padding: 1.5rem 1.8rem 2.2rem 1.8rem;
   text-align: center;
-  gap: 2rem;
-  width: 100%;
-  margin: auto 0;
 }
 
 .header-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.2rem;
-  width: 100%;
+  gap: 0.5rem;
 }
 
 .title {
-  color: #ffffff;
-  font-size: 1.95rem;
-  font-weight: 800;
-  line-height: 1.25;
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--text-main);
   letter-spacing: -0.5px;
-  text-align: center;
-  width: 100%;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95);
 }
 
-/* Texto destacado cian */
 .highlight-text {
-  color: #50cbf8;
-  text-shadow: 0 0 20px rgba(80, 203, 248, 0.7);
+  color: var(--primary-blue);
 }
 
 .subtitle {
-  color: #e2edf7;
-  font-size: 0.92rem;
-  line-height: 1.55;
-  font-weight: 400;
-  text-align: center;
-  max-width: 90%;
-  margin: 0 auto;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  padding: 0 0.5rem;
 }
 
-/* Botones */
 .actions-section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.75rem;
   width: 100%;
-  justify-content: center;
 }
 
+/* ==========================================================================
+   Botones Globales
+   ========================================================================== */
 .btn {
-  flex: 1;
-  padding: 0.9rem 0.6rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
   font-size: 0.88rem;
   font-weight: 700;
-  border-radius: 12px;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: none;
 }
 
-/* Botón primario celeste sólido con resplandor neón */
+.btn:active {
+  transform: scale(0.97);
+}
+
 .btn-primary {
-  background-color: #50cbf8;
-  color: #02121e;
-  border: 2px solid #50cbf8;
-  box-shadow: 0 0 22px rgba(80, 203, 248, 0.65);
+  background-color: var(--primary-blue);
+  color: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(0, 82, 204, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #38b6e6;
-  border-color: #38b6e6;
-  transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(80, 203, 248, 0.85);
+  background-color: var(--primary-blue-dark);
 }
 
-/* Botón secundario oscuro con borde blanco */
 .btn-secondary {
-  background-color: #031422;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+  background-color: #FFFFFF;
+  color: var(--text-main);
+  border: 1.5px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
-  background-color: #ffffff;
-  color: #031422;
-  transform: translateY(-2px);
-}
-
-/* Responsive para pantallas estrechas */
-@media (max-width: 360px) {
-  .actions-section {
-    flex-direction: column;
-  }
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
 }

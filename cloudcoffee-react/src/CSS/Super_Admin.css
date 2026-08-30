@@ -1,0 +1,472 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-mobile: #FAF7F2;
+  --bg-card: #FFFFFF;
+  --primary-blue: #0052CC;
+  --accent-yellow-light: #FFF8DF;
+  --accent-yellow-border: #F3DC87;
+  --border-light: #EFE9DE;
+  --text-main: #1D2433;
+  --text-muted: #6B7280;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.superadmin-mobile-container {
+  background-color: var(--bg-mobile) !important;
+  padding: 1.2rem 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  scrollbar-width: none;
+}
+
+.superadmin-mobile-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.superadmin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 0.75rem 0.9rem;
+  border-radius: 18px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.superadmin-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-badge {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.superadmin-brand h2 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+.btn-logout {
+  background: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FCA5A5;
+  padding: 0.4rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+/* Pestañas de Navegación con Arrastre */
+.superadmin-nav-tabs {
+  display: flex !important;
+  gap: 0.4rem !important;
+  margin-bottom: 0.85rem !important;
+  overflow-x: auto !important;
+  padding-bottom: 0.35rem !important;
+  flex-shrink: 0 !important;
+  cursor: grab !important;
+  user-select: none !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap !important;
+}
+
+.superadmin-nav-tabs::-webkit-scrollbar {
+  display: none !important;
+}
+
+.superadmin-nav-tabs.grabbing {
+  cursor: grabbing !important;
+}
+
+.sa-tab-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0 !important;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.sa-tab-btn.active {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border-color: var(--primary-blue);
+  box-shadow: 0 2px 8px rgba(0, 82, 204, 0.25);
+}
+
+/* Contenido */
+.superadmin-mobile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.5rem;
+}
+
+.sa-section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.superadmin-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 0.9rem;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.superadmin-card h2 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  margin: 0 0 0.65rem 0;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.4rem;
+}
+
+.sa-helper-text {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+/* Formularios */
+.superadmin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select {
+  border: 1.5px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: var(--text-main);
+  background-color: var(--bg-mobile);
+  outline: none;
+  width: 100%;
+}
+
+.btn-primary-super {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  margin-top: 0.3rem;
+  box-shadow: 0 3px 8px rgba(0, 82, 204, 0.2);
+}
+
+.btn-primary-super:disabled {
+  background: #94A3B8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sa-inline-form {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.sa-inline-form input {
+  flex: 1;
+  border: 1.5px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.78rem;
+  background-color: var(--bg-mobile);
+}
+
+/* ==========================================================================
+   Categorías en Cuadrícula Flexible (Chips / Etiquetas con Botón Eliminar)
+   ========================================================================== */
+.sa-categories-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.45rem !important;
+  padding-top: 0.3rem !important;
+  max-height: 180px !important;
+  overflow-y: auto !important;
+  scrollbar-width: none;
+}
+
+.sa-categories-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.sa-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--accent-yellow-light);
+  border: 1.5px solid var(--accent-yellow-border);
+  color: #92400E;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.sa-cat-chip:hover {
+  background-color: #fef0c7;
+  border-color: #f59e0b;
+}
+
+.sa-cat-chip .btn-remove-cat {
+  background: none;
+  border: none;
+  color: #b45309;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.sa-cat-chip .btn-remove-cat:hover {
+  opacity: 1;
+  color: #b91c1c;
+}
+
+/* ==========================================================================
+   Barra de Filtros por Rol (Cuentas)
+   ========================================================================== */
+.sa-role-filter-bar {
+  display: flex !important;
+  gap: 0.45rem !important;
+  overflow-x: auto !important;
+  padding: 0.2rem 0.1rem 0.55rem 0.1rem !important;
+  cursor: grab !important;
+  user-select: none !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap !important;
+}
+
+.sa-role-filter-bar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.sa-role-filter-bar.grabbing {
+  cursor: grabbing !important;
+}
+
+.sa-role-filter-btn {
+  background: var(--bg-mobile);
+  border: 1.5px solid var(--border-light);
+  color: var(--text-muted);
+  padding: 0.42rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0 !important;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.sa-role-filter-btn.active {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border-color: var(--primary-blue);
+  box-shadow: 0 2px 6px rgba(0, 82, 204, 0.25);
+}
+
+/* Listado de elementos */
+.sa-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sa-item-box {
+  background: var(--bg-mobile);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sa-item-box.inactiva {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.sa-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+}
+
+.sa-item-info strong {
+  font-size: 0.82rem;
+}
+
+.sa-item-info small {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.sa-item-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sa-badge-status {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sa-badge-status.activa { background: #DCFCE7; color: #166534; }
+.sa-badge-status.inactiva { background: #FEE2E2; color: #991B1B; }
+
+.campus-badge {
+  display: inline-block;
+  background: var(--accent-yellow-light);
+  border: 1px solid var(--accent-yellow-border);
+  color: #92400E;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.btn-sa-toggle {
+  border: none;
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-warn { background: #FEE2E2; color: #991B1B; }
+.btn-success { background: #DCFCE7; color: #166534; }
+
+.sa-no-cafes-alert {
+  background: #FFF8DF;
+  border: 1px dashed #F3DC87;
+  color: #92400E;
+  font-size: 0.74rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  text-align: left;
+}
+
+/* Badges de Roles */
+.sa-badge-role {
+  font-size: 0.6rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sa-badge-role.role-cliente { background: #DBEAFE; color: #1E40AF; }
+.sa-badge-role.role-cajero { background: #FEF3C7; color: #92400E; }
+.sa-badge-role.role-administrador { background: #E0E7FF; color: #3730A3; }
+
+.btn-delete-account {
+  background: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FCA5A5;
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s ease;
+}
+
+.btn-delete-account:active {
+  transform: scale(0.95);
+}
+
+.sa-anon-tag {
+  font-size: 0.68rem;
+  color: #6B7280;
+  font-weight: 700;
+}
+
+.empty-text {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem 0;
+}

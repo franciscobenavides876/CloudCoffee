@@ -16,15 +16,30 @@ export default function InicioSesion({ onBack, onNavigateToRegister, onNavigateT
 
   const handleIngresar = (e) => {
     e.preventDefault();
-    console.log("Ingresando con datos:", formData);
 
-    // Guardar credenciales de sesión local
-    localStorage.setItem('user_token', 'demo-token-jwt');
-    localStorage.setItem('user_email', formData.email || 'estudiante@uct.cl');
+    const cleanEmail = (formData.email || '').trim().toLowerCase();
+
+    // 1. Detección de roles por dominio
+    const isCajero = cleanEmail.endsWith('@ca.cloudcoffee.cl');
+    const isAdmin = !isCajero && cleanEmail.endsWith('@cloudcoffee.cl');
     
-    // Cambiar a la vista del consumidor
+    let userRole = 'consumidor';
+    if (isAdmin) userRole = 'admin';
+    if (isCajero) userRole = 'cajero';
+
+    // 2. Persistencia en localStorage
+    localStorage.setItem('user_token', 'demo-token-jwt');
+    localStorage.setItem('user_email', cleanEmail || 'estudiante@uct.cl');
+    localStorage.setItem('user_role', userRole);
+
+    // 3. Notificar a App.jsx con el rol correspondiente
     if (onLoginSuccess) {
-      onLoginSuccess();
+      onLoginSuccess({
+        email: cleanEmail,
+        role: userRole,
+        isAdmin: isAdmin,
+        isCajero: isCajero
+      });
     }
   };
 
@@ -47,20 +62,21 @@ export default function InicioSesion({ onBack, onNavigateToRegister, onNavigateT
               Iniciar <span className="highlight-text">Sesión</span>
             </h1>
             <p className="subtitle">
-              Ingresa tus datos institucionales de la UCT para continuar.
+              Ingresa tus credenciales para continuar al sistema.
             </p>
           </header>
 
           <form className="login-form" onSubmit={handleIngresar}>
             <div className="input-group">
-              <label htmlFor="email">Correo Institucional</label>
+              <label htmlFor="email">Correo Institucional / Administrativo</label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ejemplo@uct.cl"
+                placeholder="ejemplo@ca.cloudcoffee.cl o @uct.cl"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -73,6 +89,7 @@ export default function InicioSesion({ onBack, onNavigateToRegister, onNavigateT
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -86,11 +103,9 @@ export default function InicioSesion({ onBack, onNavigateToRegister, onNavigateT
               </button>
             </div>
 
-            {/* Botón con onClick y type="submit" garantizados */}
             <button 
               type="submit" 
               className="btn btn-primary"
-              onClick={handleIngresar}
             >
               Ingresar
             </button>

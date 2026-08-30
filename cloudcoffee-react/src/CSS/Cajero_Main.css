@@ -1,0 +1,558 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-mobile: #FAF7F2;
+  --bg-card: #FFFFFF;
+  --primary-blue: #0052CC;
+  --accent-yellow-light: #FFF8DF;
+  --accent-yellow-border: #F3DC87;
+  --border-light: #EFE9DE;
+  --text-main: #1D2433;
+  --text-muted: #6B7280;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cajero-mobile-container {
+  background-color: var(--bg-mobile) !important;
+  padding: 1.2rem 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  scrollbar-width: none;
+}
+
+.cajero-mobile-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.cajero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 0.75rem 0.9rem;
+  border-radius: 18px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.cajero-brand-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.cajero-role-pill {
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.cajero-brand-info h2 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+.btn-cajero-logout {
+  background: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FCA5A5;
+  padding: 0.4rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+/* Pestañas con Soporte para Indicador Visual */
+.cajero-mobile-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  flex-shrink: 0;
+}
+
+.cajero-m-tab {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  padding: 0.6rem 0.4rem;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cajero-m-tab.active {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border-color: var(--primary-blue);
+  box-shadow: 0 2px 8px rgba(0, 82, 204, 0.25);
+}
+
+/* Pelotita Roja / Indicador Pulsante */
+.notification-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #EF4444;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 2px #FFFFFF;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.cajero-m-tab.active .notification-dot {
+  box-shadow: 0 0 0 2px var(--primary-blue);
+  background-color: #F87171;
+}
+
+.notification-dot.warning {
+  background-color: #F59E0B;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+}
+
+.cajero-mobile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.5rem;
+}
+
+/* Tarjeta de Validación QR / Folio */
+.cajero-qr-actions-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 0.85rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-open-scanner {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.cajero-folio-search-form {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.cajero-folio-search-form input {
+  flex: 1;
+  border: 1.5px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.75rem;
+  background-color: var(--bg-mobile);
+}
+
+.btn-search-folio {
+  background: #E0E7FF;
+  color: var(--primary-blue);
+  border: 1px solid #C7D2FE;
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* Tarjetas de Órdenes */
+.cajero-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-order-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.m-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.m-order-folio {
+  font-size: 0.68rem;
+  background: #F3F4F6;
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+  margin-left: 0.35rem;
+  color: var(--text-muted);
+}
+
+.m-order-time {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.m-status-badge {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.m-status-badge.pagado { background: #DBEAFE; color: #1E40AF; }
+.m-status-badge.listo { background: #DCFCE7; color: #166534; }
+
+.m-order-client {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  border-bottom: 1px dashed var(--border-light);
+  padding-bottom: 0.4rem;
+}
+
+.m-order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.m-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.m-order-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-light);
+  padding-top: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.btn-m-action {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem;
+  font-weight: 700;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.btn-m-ready { background: #DCFCE7; color: #166534; }
+.btn-m-deliver { background: var(--primary-blue); color: #FFFFFF; }
+
+/* Control de Stock */
+.cajero-inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.mobile-stock-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.m-stock-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.m-stock-category {
+  font-size: 0.65rem;
+  background: var(--accent-yellow-light);
+  color: #92400E;
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+}
+
+.m-stock-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-stepper {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-mobile);
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-stepper:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stock-counter-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  background: #EFF6FF;
+  color: var(--primary-blue);
+  border-radius: 8px;
+  min-width: 48px;
+  text-align: center;
+}
+
+.stock-counter-badge.out {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+/* No Retirados */
+.nr-card {
+  border-left: 4px solid #F59E0B;
+}
+
+.nr-instruction {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin: 0.2rem 0;
+}
+
+.nr-item-row {
+  background: var(--bg-mobile);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.nr-item-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-nr-action {
+  flex: 1;
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  padding: 0.4rem 0.3rem;
+  border-radius: 8px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-nr-action.selected-reingresar {
+  background: #DCFCE7;
+  border-color: #86EFAC;
+  color: #166534;
+}
+
+.btn-nr-action.selected-descartar {
+  background: #FEE2E2;
+  border-color: #FCA5A5;
+  color: #991B1B;
+}
+
+/* Modales */
+.cajero-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1rem;
+}
+
+.cajero-modal-box {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 1.2rem;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.qr-sim-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0.8rem 0;
+}
+
+.btn-sim-qr-entry {
+  background: var(--bg-mobile);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.6rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.btn-close-modal {
+  width: 100%;
+  background: #F3F4F6;
+  border: none;
+  padding: 0.55rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+/* Modal Detalle de Entrega */
+.delivery-icon-check {
+  width: 44px;
+  height: 44px;
+  background: #DCFCE7;
+  color: #166534;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin: 0 auto 0.5rem auto;
+}
+
+.delivery-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.delivery-order-meta {
+  background: var(--bg-mobile);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 0.74rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.6rem;
+}
+
+.delivery-items-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.delivery-item-pill {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1E40AF;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.delivery-qty {
+  background: #1E40AF;
+  color: #FFFFFF;
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+}
+
+.btn-accept-delivery {
+  width: 100%;
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.mobile-empty-state {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}

@@ -1,34 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CartasProductos from './Cartas_Productos';
 import '../CSS/Consumidor_Main.css';
 
-export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, currentCampus }) {
+export default function ConsumidorMain({ 
+  onNavigateToCampus, 
+  onNavigateToCart, 
+  onNavigateToOrders, 
+  onNavigateToProfile,
+  currentCampus 
+}) {
   const [campusName, setCampusName] = useState(
     currentCampus || localStorage.getItem('selected_campus_name') || 'Campus San Francisco'
   );
-  
+
+  const userName = localStorage.getItem('user_name') || 'Estudiante UCT';
+
   useEffect(() => {
     if (currentCampus) {
       setCampusName(currentCampus);
     }
   }, [currentCampus]);
 
+  // Referencias y estados para el desplazamiento (drag-to-scroll) con el mouse
+  const categoriesRef = useRef(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = (e) => {
+    setIsMouseDown(true);
+    setIsDragging(false);
+    setStartX(e.pageX - categoriesRef.current.offsetLeft);
+    setScrollLeftState(categoriesRef.current.scrollLeft);
+  };
+
+  const handleMouseLeaveOrUp = () => {
+    setIsMouseDown(false);
+    setTimeout(() => setIsDragging(false), 50);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isMouseDown) return;
+    e.preventDefault();
+    const x = e.pageX - categoriesRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    if (Math.abs(walk) > 5) {
+      setIsDragging(true);
+    }
+    categoriesRef.current.scrollLeft = scrollLeftState - walk;
+  };
+
+  const handleWheel = (e) => {
+    if (categoriesRef.current) {
+      categoriesRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const CATEGORIES = ['TODOS', 'Snacks', 'Bebidas', 'Pastelería', 'Café', 'Sándwiches'];
+
   const [products, setProducts] = useState([
     {
       id: 1,
       name: 'Café Americano 12oz',
       description: 'Espresso doble con agua caliente, tostado medio local.',
-      category: 'Cafetería',
-      rating: 4.8,
-      reviewsCount: 14,
-      reviews: [
-        { id: 101, autor: 'Ignacio S.', rating: 5, comentario: 'Excelente temperatura y aroma ideal para la mañana.', fecha: 'Hoy' },
-        { id: 102, autor: 'Camila V.', rating: 4, comentario: 'Muy buen sabor, aunque un poco demorado el retiro.', fecha: 'Ayer' }
-      ],
+      category: 'Café',
       isFollowed: false,
       offers: [
-        { cafeId: 101, cafeName: 'Cafetería Central', price: 1800 },
-        { cafeId: 102, cafeName: 'Kiosko Pabellón D', price: 1750 }
+        { cafeId: 101, cafeName: 'Cafetería Central', location: 'Pabellón Central - Piso 1', price: 1800, inStock: true },
+        { cafeId: 102, cafeName: 'Kiosko Pabellón D', location: 'Patio Central', price: 1750, inStock: true }
       ]
     },
     {
@@ -36,14 +76,9 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
       name: 'Croissant Jamón y Queso',
       description: 'Hojaldre mantequilla horneado a diario con queso gouda.',
       category: 'Pastelería',
-      rating: 4.9,
-      reviewsCount: 22,
-      reviews: [
-        { id: 201, autor: 'Felipe M.', rating: 5, comentario: 'Siempre crujiente y caliente.', fecha: 'Hace 2 días' }
-      ],
       isFollowed: false,
       offers: [
-        { cafeId: 101, cafeName: 'Cafetería Central', price: 2500 }
+        { cafeId: 101, cafeName: 'Cafetería Central', location: 'Pabellón Central - Piso 1', price: 2500, inStock: true }
       ]
     },
     {
@@ -51,22 +86,37 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
       name: 'Sándwich Ave Palta',
       description: 'Pechuga desmenuzada y palta fresca en pan ciabatta.',
       category: 'Sándwiches',
-      rating: 4.5,
-      reviewsCount: 8,
-      reviews: [],
       isFollowed: false,
-      offers: []
+      offers: [
+        { cafeId: 101, cafeName: 'Cafetería Central', location: 'Pabellón Central - Piso 1', price: 3200, inStock: false }
+      ]
+    },
+    {
+      id: 4,
+      name: 'Papas Fritas Rústicas',
+      description: 'Papas fritas artesanales con sal de mar.',
+      category: 'Snacks',
+      isFollowed: false,
+      offers: [
+        { cafeId: 102, cafeName: 'Kiosko Pabellón D', location: 'Patio Central', price: 1500, inStock: true }
+      ]
+    },
+    {
+      id: 5,
+      name: 'Jugo Natural Naranja 300ml',
+      description: 'Recién exprimido sin azúcar añadida.',
+      category: 'Bebidas',
+      isFollowed: false,
+      offers: [
+        { cafeId: 101, cafeName: 'Cafetería Central', location: 'Pabellón Central - Piso 1', price: 2000, inStock: true }
+      ]
     }
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('TODOS');
 
-  // Estado para el modal de reseñas
-  const [activeReviewProduct, setActiveReviewProduct] = useState(null);
-  const [newRating, setNewRating] = useState(5);
-  const [newComment, setNewComment] = useState('');
-
+  // Agregar al carrito
   const handleAddToCart = (product, offer) => {
     const currentCartCafe = localStorage.getItem('cart_cafe_id');
 
@@ -79,56 +129,48 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
 
     localStorage.setItem('cart_cafe_id', offer.cafeId.toString());
     localStorage.setItem('cart_cafe_name', offer.cafeName);
-    alert(`Agregaste "${product.name}" (${offer.cafeName}) al carrito.`);
+    
+    const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+    const existingIndex = savedCart.findIndex(
+      (item) => item.id === product.id && item.cafeId === offer.cafeId
+    );
+    
+    if (existingIndex > -1) {
+      savedCart[existingIndex].quantity += 1;
+    } else {
+      savedCart.push({
+        id: product.id,
+        name: product.name,
+        price: offer.price,
+        cafeId: offer.cafeId,
+        cafeName: offer.cafeName,
+        quantity: 1
+      });
+    }
+    localStorage.setItem('cart_items', JSON.stringify(savedCart));
+    alert(`¡"${product.name}" de ${offer.cafeName} se agregó al carrito!`);
   };
 
+  // Alternar aviso por stock
   const handleToggleFollow = (productId) => {
     setProducts((prev) =>
-      prev.map((p) => (p.id === productId ? { ...p, isFollowed: !p.isFollowed } : p))
-    );
-  };
-
-  // Agregar una nueva reseña
-  const handleAddReview = (e) => {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-
-    const nuevaReseña = {
-      id: Date.now(),
-      autor: localStorage.getItem('user_email')?.split('@')[0] || 'Estudiante UCT',
-      rating: newRating,
-      comentario: newComment,
-      fecha: 'Recién'
-    };
-
-    setProducts((prev) =>
       prev.map((p) => {
-        if (p.id === activeReviewProduct.id) {
-          const updatedReviews = [nuevaReseña, ...(p.reviews || [])];
-          const newCount = (p.reviewsCount || 0) + 1;
-          const avgRating = Number(
-            (updatedReviews.reduce((acc, curr) => acc + curr.rating, 0) / updatedReviews.length).toFixed(1)
-          );
-          const updatedProduct = {
-            ...p,
-            reviews: updatedReviews,
-            reviewsCount: newCount,
-            rating: avgRating
-          };
-          setActiveReviewProduct(updatedProduct);
-          return updatedProduct;
+        if (p.id === productId) {
+          const newState = !p.isFollowed;
+          alert(newState ? '¡Listo! Te avisaremos cuando haya stock disponible.' : 'Has cancelado el aviso de stock.');
+          return { ...p, isFollowed: newState };
         }
         return p;
       })
     );
-
-    setNewComment('');
-    setNewRating(5);
   };
 
+  // Filtrado por búsqueda y categoría
   const filteredProducts = products.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'TODOS' || p.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === 'TODOS' ||
+      p.category.toLowerCase() === selectedCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
@@ -137,7 +179,22 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
       <div className="screen-container consumer-container">
         <div className="consumer-content">
           
-          {/* Header Superior Móvil */}
+          {/* Tarjeta de Perfil Superior */}
+          <div className="mobile-profile-bar" onClick={onNavigateToProfile}>
+            <div className="profile-box-left">
+              <div className="profile-icon-circle">👤</div>
+              <div className="profile-text-meta">
+                <small>MI PERFIL</small>
+                <strong>{userName}</strong>
+                <button type="button" className="btn-profile-link">
+                  Editar perfil
+                </button>
+              </div>
+            </div>
+            <span className="profile-arrow-icon">➔</span>
+          </div>
+
+          {/* Tarjeta de Campus Actual */}
           <header className="mobile-top-bar">
             <div className="campus-box">
               <div className="campus-icon-mini">📍</div>
@@ -154,43 +211,64 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
               </div>
             </div>
 
-            <button 
-              type="button" 
-              className="btn-mini-cart"
-              onClick={onNavigateToCart}
-            >
-              🛒 Carrito
-            </button>
+            <div className="header-actions-col">
+              <button 
+                type="button" 
+                className="btn-mini-cart"
+                onClick={onNavigateToCart}
+              >
+                🛒 Carrito
+              </button>
+              <button 
+                type="button" 
+                className="btn-mini-orders"
+                onClick={onNavigateToOrders}
+              >
+                📋 Mis Pedidos
+              </button>
+            </div>
           </header>
 
           {/* Buscador */}
           <input
             type="text"
-            placeholder="Buscar café, sándwich, pastelería..."
+            placeholder="Buscar café, sándwich, snacks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="mobile-search-input"
           />
 
-          {/* Categorías */}
-          <div className="mobile-category-chips">
-            {['TODOS', 'Cafetería', 'Pastelería', 'Sándwiches', 'Bebidas'].map((cat) => (
+          {/* Selector de Categorías */}
+          <div 
+            ref={categoriesRef}
+            className={`mobile-category-chips ${isMouseDown ? 'is-dragging' : ''}`}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeaveOrUp}
+            onMouseUp={handleMouseLeaveOrUp}
+            onMouseMove={handleMouseMove}
+            onWheel={handleWheel}
+          >
+            {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 className={`mobile-chip ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                  if (!isDragging) {
+                    setSelectedCategory(cat);
+                  }
+                }}
               >
                 {cat}
               </button>
             ))}
           </div>
 
-          {/* Lista de Productos */}
+          {/* Listado de Productos */}
           <main className="mobile-catalog-list">
             {filteredProducts.length === 0 ? (
               <div className="mobile-empty-state">
-                <p>No hay productos disponibles para este filtro.</p>
+                <p>No hay productos disponibles en esta categoría.</p>
               </div>
             ) : (
               filteredProducts.map((product) => (
@@ -199,82 +277,10 @@ export default function ConsumidorMain({ onNavigateToCampus, onNavigateToCart, c
                   product={product}
                   onAddToCart={handleAddToCart}
                   onToggleFollow={handleToggleFollow}
-                  onOpenReviews={() => setActiveReviewProduct(product)}
                 />
               ))
             )}
           </main>
-
-          {/* Modal de Reseñas y Calificaciones */}
-          {activeReviewProduct && (
-            <div className="review-modal-overlay">
-              <div className="review-modal-card">
-                <div className="modal-header">
-                  <div className="modal-title-group">
-                    <h3>Reseñas: {activeReviewProduct.name}</h3>
-                    <div className="modal-rating-badge">
-                      ⭐ {activeReviewProduct.rating || '5.0'} ({activeReviewProduct.reviewsCount || 0} opiniones)
-                    </div>
-                  </div>
-                  <button 
-                    type="button" 
-                    className="modal-close-btn"
-                    onClick={() => setActiveReviewProduct(null)}
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                {/* Formulario para Dejar Reseña */}
-                <form className="add-review-form" onSubmit={handleAddReview}>
-                  <label>Tu Calificación:</label>
-                  <div className="star-rating-selector">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        className={`star-btn ${star <= newRating ? 'selected' : ''}`}
-                        onClick={() => setNewRating(star)}
-                      >
-                        ★
-                      </button>
-                    ))}
-                  </div>
-
-                  <textarea
-                    rows="2"
-                    placeholder="Escribe tu opinión sobre el producto..."
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    required
-                  />
-
-                  <button type="submit" className="btn-submit-review">
-                    Publicar Reseña
-                  </button>
-                </form>
-
-                {/* Listado de comentarios */}
-                <div className="reviews-history-list">
-                  <h4>Opiniones de la comunidad</h4>
-                  {activeReviewProduct.reviews && activeReviewProduct.reviews.length > 0 ? (
-                    activeReviewProduct.reviews.map((rev) => (
-                      <div key={rev.id} className="review-item">
-                        <div className="review-item-header">
-                          <strong>{rev.autor}</strong>
-                          <span className="review-stars">{'★'.repeat(rev.rating)}</span>
-                        </div>
-                        <p>{rev.comentario}</p>
-                        <small>{rev.fecha}</small>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="no-reviews">Sé el primero en dejar una reseña sobre este producto.</p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
 
         </div>
       </div>

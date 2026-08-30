@@ -25,7 +25,6 @@ export default function Carrito({ onBack, onCheckoutSuccess, cartItems = [], onU
         ]
   );
 
-  const [metodoPago, setMetodoPago] = useState('billetera');
   const [procesando, setProcesando] = useState(false);
 
   const handleQuantityChange = (id, delta) => {
@@ -59,7 +58,7 @@ export default function Carrito({ onBack, onCheckoutSuccess, cartItems = [], onU
 
     setTimeout(() => {
       setProcesando(false);
-      alert(`¡Pedido realizado con éxito en ${cafeActual}!`);
+      alert(`¡Pedido pagado con Mercado Pago en ${cafeActual}!`);
       if (onCheckoutSuccess) {
         onCheckoutSuccess();
       }
@@ -140,36 +139,17 @@ export default function Carrito({ onBack, onCheckoutSuccess, cartItems = [], onU
                 ))}
               </div>
 
+              {/* Sección de Método de Pago Exclusivo Mercado Pago */}
               <section className="payment-method-section">
                 <h3>Método de Pago</h3>
                 <div className="payment-options">
-                  <label className={`payment-option ${metodoPago === 'billetera' ? 'active' : ''}`}>
-                    <input
-                      type="radio"
-                      name="metodoPago"
-                      value="billetera"
-                      checked={metodoPago === 'billetera'}
-                      onChange={() => setMetodoPago('billetera')}
-                    />
+                  <div className="payment-option single-option active">
+                    <span className="mp-badge-icon">💙</span>
                     <div className="option-info">
-                      <strong>Billetera Virtual UCT</strong>
-                      <small>Saldo disponible con tu TUI</small>
+                      <strong>Mercado Pago</strong>
+                      <small>Tarjetas de débito, crédito o saldo en cuenta</small>
                     </div>
-                  </label>
-
-                  <label className={`payment-option ${metodoPago === 'webpay' ? 'active' : ''}`}>
-                    <input
-                      type="radio"
-                      name="metodoPago"
-                      value="webpay"
-                      checked={metodoPago === 'webpay'}
-                      onChange={() => setMetodoPago('webpay')}
-                    />
-                    <div className="option-info">
-                      <strong>WebPay Plus</strong>
-                      <small>Débito / Crédito / Prepago</small>
-                    </div>
-                  </label>
+                  </div>
                 </div>
               </section>
 
@@ -189,7 +169,7 @@ export default function Carrito({ onBack, onCheckoutSuccess, cartItems = [], onU
                   onClick={handlePagar}
                   disabled={procesando}
                 >
-                  {procesando ? 'Confirmando pedido...' : `Pagar $${total.toLocaleString('es-CL')}`}
+                  {procesando ? 'Procesando pago...' : `Pagar con Mercado Pago $${total.toLocaleString('es-CL')}`}
                 </button>
               </div>
             </>
