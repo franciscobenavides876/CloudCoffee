@@ -1,18 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-mobile: #FAF7F2;
-  --bg-card: #FFFFFF;
-  --primary-blue: #0052CC;
-  --primary-blue-dark: #073B8C;
-  --accent-yellow-light: #FFF8DF;
-  --accent-yellow-border: #F3DC87;
-  --accent-yellow-icon: #D9A404;
-  --border-light: #EFE9DE;
-  --text-main: #1D2433;
-  --text-muted: #6B7280;
-  --text-sub: #4B5563;
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --bg-mobile: #F5EFE6;
+  --bg-card: #FAF6F0;
+  --bg-surface: #FFFFFF;
+
+  --primary-color: #2D1B14;
+  --primary-hover: #1E120D;
+  --accent-warm: #B25329;
+  --accent-soft: #EADBCE;
+  --color-turquoise: #0284C7; /* Turquesa oscuro mate */
+
+  --text-main: #26211D;
+  --text-muted: #7A7067;
+  --text-sub: #544C45;
+  --border-light: #E5DDD3;
+  --border-dark: #C9BFB2;
 }
 
 * {
@@ -24,15 +27,15 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: #0b1320; /* Fondo oscuro exterior para resaltar el móvil */
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #1F1C1A;
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==========================================================================
-   Contenedor Base del Smartphone (Marco Rígido)
+   Contenedor Exterior y Marco Smartphone
    ========================================================================== */
 .mobile-wrapper {
   display: flex;
@@ -40,7 +43,7 @@ body {
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  background-color: #0b1320;
+  background-color: #1F1C1A;
   padding: 1.5rem;
   box-sizing: border-box;
 }
@@ -58,98 +61,87 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 10px #1e293b;
+  justify-content: space-between;
+  border: 8px solid #2B2623;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
-/* Fondos y círculos decorativos */
-.petroleum-background {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* ==========================================================================
+   Cabecera Superior y Título Turquesa
+   ========================================================================== */
+.brand-header-centered {
   width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, #e8f0fe 0%, #FAF7F2 65%);
-  z-index: 1;
+  padding-top: 2.75rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
-.thin-circle {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 82, 204, 0.08);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.tc-1 {
-  width: 300px;
-  height: 300px;
-  top: -80px;
-  right: -80px;
-}
-
-.tc-2 {
-  width: 220px;
-  height: 220px;
-  top: 40px;
-  right: -50px;
-}
-
-.tc-3 {
-  width: 140px;
-  height: 140px;
-  bottom: 80px;
-  left: -40px;
+.title,
+h1.title {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #0284C7 !important; /* Forzado en turquesa para evitar herencias en blanco */
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+  margin: 0 auto !important;
+  text-align: center !important;
+  display: block;
 }
 
 /* ==========================================================================
-   Portada / Vista de Inicio
+   Zona de Imagen
    ========================================================================== */
-.foreground-image {
-  position: relative;
-  z-index: 3;
-  width: 210px;
-  height: auto;
-  margin: 2.5rem auto 0.5rem auto;
-  display: block;
-  filter: drop-shadow(0 12px 20px rgba(0, 82, 204, 0.15));
-  object-fit: contain;
-}
-
-.content {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.image-wrapper {
   flex: 1;
-  padding: 1.5rem 1.8rem 2.2rem 1.8rem;
-  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
 }
 
-.header-section {
+.foreground-image {
+  width: 220px;
+  max-width: 85%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: none;
+}
+
+/* ==========================================================================
+   Zona Inferior de Acciones
+   ========================================================================== */
+.content {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: var(--text-main);
-  letter-spacing: -0.5px;
-}
-
-.highlight-text {
-  color: var(--primary-blue);
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1.75rem 1.85rem 2.25rem 1.85rem;
+  text-align: center;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-light);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
 }
 
 .subtitle {
-  font-size: 0.82rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 1.4rem auto;
+  text-align: center;
+  font-size: 0.88rem;
   color: var(--text-muted);
-  line-height: 1.45;
-  padding: 0 0.5rem;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 .actions-section {
@@ -160,45 +152,46 @@ body {
 }
 
 /* ==========================================================================
-   Botones Globales
+   Botones Planos Mate
    ========================================================================== */
 .btn {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border-radius: 16px;
-  font-size: 0.88rem;
-  font-weight: 700;
+  padding: 0.95rem 1.2rem;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  border: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  border: 1px solid transparent;
+  box-shadow: none;
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: translateY(1px);
 }
 
 .btn-primary {
-  background-color: var(--primary-blue);
-  color: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(0, 82, 204, 0.3);
+  background-color: var(--primary-color);
+  color: #FAF6F0;
+  border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-blue-dark);
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 .btn-secondary {
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
   color: var(--text-main);
-  border: 1.5px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--border-light);
 }
 
 .btn-secondary:hover {
-  background-color: #F9FAFB;
-  border-color: #D1D5DB;
+  background-color: #EDE5D8;
+  border-color: var(--border-dark);
 }

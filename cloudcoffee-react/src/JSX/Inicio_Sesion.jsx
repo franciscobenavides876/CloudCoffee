@@ -46,12 +46,6 @@ export default function InicioSesion({ onBack, onNavigateToRegister, onNavigateT
   return (
     <div className="mobile-wrapper">
       <div className="screen-container">
-        {/* Fondo y círculos vectoriales */}
-        <div className="petroleum-background" />
-        <div className="thin-circle tc-1" />
-        <div className="thin-circle tc-2" />
-        <div className="thin-circle tc-3" />
-
         <button className="back-button" onClick={onBack} type="button">
           ← Volver
         </button>

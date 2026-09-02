@@ -12,7 +12,6 @@ import SuperAdmin from './Super_Admin';
 import CajeroMain from './Cajero_Main';
 
 export default function App() {
-  // Vistas disponibles: 'inicio' | 'login' | 'registro' | 'reset' | 'consumidor' | 'campus' | 'carrito' | 'mis_pedidos' | 'perfil' | 'admin' | 'cajero'
   const [vistaActual, setVistaActual] = useState('inicio');
   const [campusSeleccionado, setCampusSeleccionado] = useState(
     localStorage.getItem('selected_campus_name') || 'Campus San Francisco'
@@ -35,7 +34,6 @@ export default function App() {
     setVistaActual('inicio');
   };
 
-  // 1. Login
   if (vistaActual === 'login') {
     return (
       <InicioSesion 
@@ -47,7 +45,6 @@ export default function App() {
     );
   }
 
-  // 2. Cajero
   if (vistaActual === 'cajero') {
     return (
       <CajeroMain 
@@ -57,7 +54,6 @@ export default function App() {
     );
   }
 
-  // 3. SuperAdmin
   if (vistaActual === 'admin') {
     return (
       <SuperAdmin 
@@ -66,7 +62,6 @@ export default function App() {
     );
   }
 
-  // 4. Consumidor (Home)
   if (vistaActual === 'consumidor') {
     return (
       <ConsumidorMain 
@@ -79,7 +74,6 @@ export default function App() {
     );
   }
 
-  // 5. Mi Perfil
   if (vistaActual === 'perfil') {
     return (
       <MiPerfil
@@ -89,7 +83,6 @@ export default function App() {
     );
   }
 
-  // 6. Selección de Campus
   if (vistaActual === 'campus') {
     return (
       <Campus 
@@ -102,7 +95,6 @@ export default function App() {
     );
   }
 
-  // 7. Carrito
   if (vistaActual === 'carrito') {
     return (
       <Carrito 
@@ -113,7 +105,6 @@ export default function App() {
     );
   }
 
-  // 8. Mis Pedidos (QR de Retiro)
   if (vistaActual === 'mis_pedidos') {
     return (
       <MiPedido 
@@ -122,7 +113,6 @@ export default function App() {
     );
   }
 
-  // 9. Registro
   if (vistaActual === 'registro') {
     return (
       <RegistroSesion 
@@ -132,7 +122,6 @@ export default function App() {
     );
   }
 
-  // 10. Recuperar Contraseña
   if (vistaActual === 'reset') {
     return (
       <OlvidasteContraseña 
@@ -146,26 +135,26 @@ export default function App() {
   return (
     <div className="mobile-wrapper">
       <div className="screen-container">
-        <div className="petroleum-background" />
-        <div className="thin-circle tc-1" />
-        <div className="thin-circle tc-2" />
-        <div className="thin-circle tc-3" />
+        
+        {/* Cabecera Título CloudCoffee */}
+        <header className="brand-header-centered">
+          <h1 className="title" style={{ color: '#0284C7' }}>CloudCoffee</h1>
+        </header>
 
-        <img 
-          src={process.env.PUBLIC_URL + '/Imagenes/Portada.png'} 
-          alt="Loro CloudCoffee" 
-          className="foreground-image"
-        />
+        {/* Zona de Imagen */}
+        <div className="image-wrapper">
+          <img 
+            src={process.env.PUBLIC_URL + '/Imagenes/Portada.png'} 
+            alt="CloudCoffee Ilustración" 
+            className="foreground-image"
+          />
+        </div>
 
+        {/* Panel Inferior */}
         <div className="content">
-          <header className="header-section">
-            <h1 className="title">
-              <span className="highlight-text">CloudCoffee</span>
-            </h1>
-            <p className="subtitle">
-              Mejora tu experiencia en los campus de la Universidad Católica de Temuco.
-            </p>
-          </header>
+          <p className="subtitle">
+            Pide tu café y snacks con anticipación para retirar sin esperas en el campus.
+          </p>
 
           <div className="actions-section">
             <button 
@@ -173,17 +162,18 @@ export default function App() {
               type="button" 
               onClick={() => setVistaActual('registro')}
             >
-              Registrarme Gratis
+              Crear cuenta
             </button>
             <button 
               className="btn btn-secondary" 
               type="button" 
               onClick={() => setVistaActual('login')}
             >
-              Iniciar Sesión
+              Iniciar sesión
             </button>
           </div>
         </div>
+
       </div>
     </div>
   );

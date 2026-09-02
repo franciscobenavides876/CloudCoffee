@@ -1,4 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Fondo general y superficies mate */
+  --bg-mobile: #F5EFE6;
+  --bg-card: #FAF6F0;
+  --bg-surface: #FFFFFF;
+
+  /* Identidad de marca */
+  --primary-color: #2D1B14;
+  --primary-hover: #1E120D;
+  --accent-warm: #B25329;
+  --accent-soft: #EADBCE;
+  --color-turquoise: #0284C7;
+
+  /* Textos y bordes */
+  --text-main: #26211D;
+  --text-muted: #7A7067;
+  --text-sub: #544C45;
+  --border-light: #E5DDD3;
+  --border-strong: #C9BFB2;
+}
 
 * {
   box-sizing: border-box;
@@ -8,109 +29,73 @@
 
 body {
   margin: 0;
-  background-color: #02070e;
-  font-family: 'Poppins', sans-serif;
+  background-color: #1F1C1A;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-main);
   -webkit-font-smoothing: antialiased;
 }
 
+/* Contenedor Exterior */
 .mobile-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  background-color: #02070e;
+  background-color: #1F1C1A;
   padding: 1.5rem;
+  box-sizing: border-box;
 }
 
-/* Marco móvil */
+/* Marco Smartphone */
 .screen-container {
   position: relative;
-  width: 100%;
-  max-width: 390px;
-  height: 85vh;
-  max-height: 780px;
-  border-radius: 36px;
+  width: 385px !important;
+  min-width: 385px !important;
+  max-width: 385px !important;
+  height: 780px !important;
+  min-height: 780px !important;
+  max-height: 780px !important;
+  background-color: var(--bg-mobile);
+  border-radius: 40px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 2.2rem 1.8rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  justify-content: space-between;
+  padding: 2rem 1.8rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  border: 8px solid #2B2623;
+  flex-shrink: 0;
 }
 
-/* Fondo azul petróleo */
-.petroleum-background {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 85% 15%,
-    #08435d 0%,
-    #031e2d 38%,
-    #020b14 80%
-  );
-  z-index: 1;
-}
-
-/* Círculos vectoriales */
-.thin-circle {
-  position: absolute;
-  border-radius: 50%;
-  border: 1.5px solid rgba(80, 203, 248, 0.25);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.thin-circle.tc-1 {
-  width: 390px;
-  height: 390px;
-  top: 10%;
-  right: -100px;
-}
-
-.thin-circle.tc-2 {
-  width: 300px;
-  height: 300px;
-  bottom: 8%;
-  left: -90px;
-}
-
-.thin-circle.tc-3 {
-  width: 440px;
-  height: 440px;
-  bottom: -80px;
-  left: -80px;
-  border-color: rgba(80, 203, 248, 0.12);
-}
-
-/* Botón volver */
+/* Botón Volver */
 .back-button {
   position: relative;
   z-index: 5;
   background: none;
   border: none;
-  color: #a4c7e6;
+  color: var(--primary-color);
   font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
   align-self: flex-start;
-  margin-bottom: 1rem;
-  transition: color 0.2s;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .back-button:hover {
-  color: #50cbf8;
+  color: var(--accent-warm);
+  transform: translateX(-2px);
 }
 
-/* Contenido Principal */
+/* Contenedor Principal */
 .login-content {
-  position: relative;
-  z-index: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1.6rem;
+  gap: 1.4rem;
   width: 100%;
   margin: auto 0;
 }
@@ -118,137 +103,152 @@ body {
 .header-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
   text-align: left;
 }
 
 .title {
-  color: #ffffff;
-  font-size: 1.95rem;
+  color: var(--primary-color);
+  font-size: 2rem;
   font-weight: 800;
-  line-height: 1.25;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
 }
 
 .highlight-text {
-  color: #50cbf8;
-  text-shadow: 0 0 20px rgba(80, 203, 248, 0.7);
+  color: var(--color-turquoise);
+  text-shadow: none; /* Cero efecto neón */
 }
 
 .subtitle {
-  color: #b0c4de;
-  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-size: 0.86rem;
   line-height: 1.45;
+  font-weight: 500;
 }
 
 /* Formulario */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 0.85rem;
   width: 100%;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
   text-align: left;
 }
 
 .input-group label {
-  color: #d1e2f3;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
+  color: var(--primary-color);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .input-group input {
   width: 100%;
-  background: rgba(3, 18, 30, 0.7);
-  border: 1.5px solid rgba(80, 203, 248, 0.3);
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--border-light);
   border-radius: 12px;
-  padding: 0.85rem 1rem;
-  color: #ffffff;
-  font-size: 0.92rem;
+  padding: 0.75rem 0.9rem;
+  color: var(--text-main);
+  font-size: 0.88rem;
   font-family: inherit;
   outline: none;
-  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  box-shadow: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .input-group input:focus {
-  border-color: #50cbf8;
-  box-shadow: 0 0 15px rgba(80, 203, 248, 0.35);
-  background: rgba(3, 25, 42, 0.85);
+  border-color: var(--primary-color);
+  background-color: #FFFFFF;
 }
 
 .input-group input::placeholder {
-  color: #5a738e;
+  color: #A89F95;
+  font-size: 0.82rem;
 }
 
-/* Enlace olvidé contraseña */
+/* Enlace de recuperación */
 .forgot-password {
   display: flex;
   justify-content: flex-end;
+  margin-top: -0.15rem;
 }
 
 .link-button {
   background: none;
   border: none;
-  color: #8da4be;
+  color: var(--text-muted);
   font-size: 0.78rem;
+  font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  transition: color 0.2s;
+  transition: color 0.15s ease;
+  padding: 0;
 }
 
 .link-button:hover {
-  color: #50cbf8;
+  color: var(--color-turquoise);
 }
 
-/* Botón primario */
+/* Botón Primario Mate */
 .btn-primary {
-  background-color: #50cbf8;
-  color: #02121e;
-  border: 2px solid #50cbf8;
-  box-shadow: 0 0 22px rgba(80, 203, 248, 0.65);
-  padding: 0.85rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
   width: 100%;
+  background-color: var(--primary-color);
+  color: #FAF6F0;
+  border: 1px solid var(--primary-color);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: none;
   margin-top: 0.4rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .btn-primary:hover {
-  background-color: #38b6e6;
-  border-color: #38b6e6;
-  transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(80, 203, 248, 0.85);
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
-/* Pie */
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Pie de pantalla */
 .footer-section {
   text-align: center;
+  margin-top: 0.2rem;
 }
 
 .footer-text {
-  color: #8da4be;
+  color: var(--text-muted);
   font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .link-highlight {
   background: none;
   border: none;
-  color: #50cbf8;
+  color: var(--color-turquoise);
   font-weight: 700;
   font-size: 0.82rem;
   cursor: pointer;
   font-family: inherit;
   text-decoration: underline;
+  padding: 0;
+  transition: color 0.15s ease;
 }
 
 .link-highlight:hover {
-  color: #ffffff;
+  color: var(--accent-warm);
 }

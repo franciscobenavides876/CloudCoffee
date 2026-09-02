@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/Registro_Sesion.css'; // o el nombre exacto de tu CSS
+import '../CSS/Registro_Sesion.css';
 
 export default function RegistroSesion({ onBack, onNavigateToLogin }) {
   const [formData, setFormData] = useState({
@@ -37,11 +37,6 @@ export default function RegistroSesion({ onBack, onNavigateToLogin }) {
   return (
     <div className="mobile-wrapper">
       <div className="screen-container register-container">
-        <div className="petroleum-background" />
-        <div className="thin-circle tc-1" />
-        <div className="thin-circle tc-2" />
-        <div className="thin-circle tc-3" />
-
         <button className="back-button" onClick={onBack} type="button">
           ← Volver
         </button>

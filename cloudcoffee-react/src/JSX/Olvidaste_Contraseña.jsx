@@ -30,12 +30,6 @@ export default function OlvidasteContraseña({ onBack, onNavigateToLogin }) {
   return (
     <div className="mobile-wrapper">
       <div className="screen-container reset-card-container">
-        {/* Fondo azul petróleo y círculos vectoriales */}
-        <div className="petroleum-background" />
-        <div className="thin-circle tc-1" />
-        <div className="thin-circle tc-2" />
-        <div className="thin-circle tc-3" />
-
         {/* Botón de retorno */}
         <button className="back-button" onClick={onBack} type="button">
           ← Volver
@@ -69,7 +63,7 @@ export default function OlvidasteContraseña({ onBack, onNavigateToLogin }) {
 
             <button 
               type="submit" 
-              className="btn btn-primary btn-block" 
+              className="btn btn-primary" 
               disabled={cargando}
             >
               {cargando ? 'Enviando...' : 'Enviar Enlace'}
