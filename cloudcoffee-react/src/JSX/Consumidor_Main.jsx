@@ -21,7 +21,7 @@ export default function ConsumidorMain({
     }
   }, [currentCampus]);
 
-  // Referencias y estados para el desplazamiento (drag-to-scroll) con el mouse
+  // Referencias y estados para drag-to-scroll con mouse
   const categoriesRef = useRef(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -116,20 +116,8 @@ export default function ConsumidorMain({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('TODOS');
 
-  // Agregar al carrito
+  // Agregar al carrito permitiendo multi-cafetería
   const handleAddToCart = (product, offer) => {
-    const currentCartCafe = localStorage.getItem('cart_cafe_id');
-
-    if (currentCartCafe && Number(currentCartCafe) !== offer.cafeId) {
-      const confirmChange = window.confirm(
-        `Tu carrito contiene productos de otra cafetería. ¿Deseas vaciarlo para pedir en "${offer.cafeName}"?`
-      );
-      if (!confirmChange) return;
-    }
-
-    localStorage.setItem('cart_cafe_id', offer.cafeId.toString());
-    localStorage.setItem('cart_cafe_name', offer.cafeName);
-    
     const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
     const existingIndex = savedCart.findIndex(
       (item) => item.id === product.id && item.cafeId === offer.cafeId
@@ -151,7 +139,6 @@ export default function ConsumidorMain({
     alert(`¡"${product.name}" de ${offer.cafeName} se agregó al carrito!`);
   };
 
-  // Alternar aviso por stock
   const handleToggleFollow = (productId) => {
     setProducts((prev) =>
       prev.map((p) => {
@@ -165,7 +152,6 @@ export default function ConsumidorMain({
     );
   };
 
-  // Filtrado por búsqueda y categoría
   const filteredProducts = products.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
@@ -179,7 +165,6 @@ export default function ConsumidorMain({
       <div className="screen-container consumer-container">
         <div className="consumer-content">
           
-          {/* Tarjeta de Perfil Superior */}
           <div className="mobile-profile-bar" onClick={onNavigateToProfile}>
             <div className="profile-box-left">
               <div className="profile-icon-circle">👤</div>
@@ -194,7 +179,6 @@ export default function ConsumidorMain({
             <span className="profile-arrow-icon">➔</span>
           </div>
 
-          {/* Tarjeta de Campus Actual */}
           <header className="mobile-top-bar">
             <div className="campus-box">
               <div className="campus-icon-mini">📍</div>
@@ -229,7 +213,6 @@ export default function ConsumidorMain({
             </div>
           </header>
 
-          {/* Buscador */}
           <input
             type="text"
             placeholder="Buscar café, sándwich, snacks..."
@@ -238,7 +221,6 @@ export default function ConsumidorMain({
             className="mobile-search-input"
           />
 
-          {/* Selector de Categorías */}
           <div 
             ref={categoriesRef}
             className={`mobile-category-chips ${isMouseDown ? 'is-dragging' : ''}`}
@@ -264,7 +246,6 @@ export default function ConsumidorMain({
             ))}
           </div>
 
-          {/* Listado de Productos */}
           <main className="mobile-catalog-list">
             {filteredProducts.length === 0 ? (
               <div className="mobile-empty-state">

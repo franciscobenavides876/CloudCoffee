@@ -19,10 +19,18 @@ export default function MiPerfil({ onBack, onLogout }) {
     };
   });
 
-  const [editando, setEditando] = useState(false);
-  const [nuevoTelefono, setNuevoTelefono] = useState(perfil.telefono);
+  // Modos: 'vista' | 'editar_telefono' | 'cambiar_password'
+  const [modoEdicion, setModoEdicion] = useState('vista');
 
-  const handleGuardar = (e) => {
+  // Estados de edición
+  const [nuevoTelefono, setNuevoTelefono] = useState(perfil.telefono);
+  const [passwordActual, setPasswordActual] = useState('');
+  const [passwordNueva, setPasswordNueva] = useState('');
+  const [passwordConfirmar, setPasswordConfirmar] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
+
+  // Guardar teléfono
+  const handleGuardarTelefono = (e) => {
     e.preventDefault();
     const updatedPerfil = {
       ...perfil,
@@ -32,8 +40,38 @@ export default function MiPerfil({ onBack, onLogout }) {
     setPerfil(updatedPerfil);
     localStorage.setItem('user_profile_data', JSON.stringify(updatedPerfil));
     localStorage.setItem('user_phone', updatedPerfil.telefono);
-    setEditando(false);
+    setModoEdicion('vista');
     alert('✓ Número de teléfono actualizado con éxito.');
+  };
+
+  // Guardar nueva contraseña
+  const handleGuardarPassword = (e) => {
+    e.preventDefault();
+    if (passwordNueva.length < 6) {
+      setErrorPassword('La nueva contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+    if (passwordNueva !== passwordConfirmar) {
+      setErrorPassword('La confirmación no coincide con la nueva contraseña.');
+      return;
+    }
+
+    // Limpieza de campos tras actualización simulada
+    setPasswordActual('');
+    setPasswordNueva('');
+    setPasswordConfirmar('');
+    setErrorPassword('');
+    setModoEdicion('vista');
+    alert('✓ Tu contraseña ha sido actualizada correctamente.');
+  };
+
+  const handleCancelar = () => {
+    setNuevoTelefono(perfil.telefono);
+    setPasswordActual('');
+    setPasswordNueva('');
+    setPasswordConfirmar('');
+    setErrorPassword('');
+    setModoEdicion('vista');
   };
 
   return (
@@ -49,7 +87,7 @@ export default function MiPerfil({ onBack, onLogout }) {
         <header className="profile-header">
           <div className="profile-badge">CUENTA</div>
           <h1 className="profile-title">Mi Perfil</h1>
-          <p className="profile-subtitle">Gestiona tu información de contacto institucional.</p>
+          <p className="profile-subtitle">Gestiona tu información de contacto y seguridad.</p>
         </header>
 
         {/* Tarjeta de Perfil */}
@@ -65,7 +103,8 @@ export default function MiPerfil({ onBack, onLogout }) {
             </div>
           </div>
 
-          {!editando ? (
+          {/* 1. MODO LECTURA */}
+          {modoEdicion === 'vista' && (
             <div className="profile-view-data">
               <div className="profile-info-row">
                 <span className="info-label">Nombre del Titular:</span>
@@ -82,19 +121,32 @@ export default function MiPerfil({ onBack, onLogout }) {
                 <strong>{perfil.telefono || 'No registrado'}</strong>
               </div>
 
-              <button
-                type="button"
-                className="btn-edit-profile"
-                onClick={() => {
-                  setNuevoTelefono(perfil.telefono);
-                  setEditando(true);
-                }}
-              >
-                ✏️ Cambiar Número de Teléfono
-              </button>
+              <div className="profile-actions-stack">
+                <button
+                  type="button"
+                  className="btn-edit-profile"
+                  onClick={() => {
+                    setNuevoTelefono(perfil.telefono);
+                    setModoEdicion('editar_telefono');
+                  }}
+                >
+                  ✏️ Cambiar Número de Teléfono
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-edit-profile btn-edit-pwd"
+                  onClick={() => setModoEdicion('cambiar_password')}
+                >
+                  🔒 Cambiar Contraseña
+                </button>
+              </div>
             </div>
-          ) : (
-            <form onSubmit={handleGuardar} className="profile-edit-form">
+          )}
+
+          {/* 2. MODO EDICIÓN DE TELÉFONO */}
+          {modoEdicion === 'editar_telefono' && (
+            <form onSubmit={handleGuardarTelefono} className="profile-edit-form">
               <div className="form-group">
                 <label>Nombre Completo (No editable)</label>
                 <input
@@ -104,13 +156,15 @@ export default function MiPerfil({ onBack, onLogout }) {
                   readOnly
                   className="input-readonly"
                 />
-                <small className="field-hint">El nombre institucional está vinculado a tu cuenta y no puede modificarse.</small>
+                <small className="field-hint">
+                  El nombre institucional está vinculado a tu cuenta y no puede modificarse.
+                </small>
               </div>
 
               <div className="form-group">
                 <label>Nuevo Teléfono de Contacto *</label>
                 <input
-                  type="text"
+                  type="tel"
                   value={nuevoTelefono}
                   onChange={(e) => setNuevoTelefono(e.target.value)}
                   placeholder="+56 9 ..."
@@ -123,7 +177,7 @@ export default function MiPerfil({ onBack, onLogout }) {
                 <button
                   type="button"
                   className="btn-cancel-edit"
-                  onClick={() => setEditando(false)}
+                  onClick={handleCancelar}
                 >
                   Cancelar
                 </button>
@@ -134,6 +188,76 @@ export default function MiPerfil({ onBack, onLogout }) {
             </form>
           )}
 
+          {/* 3. MODO CAMBIO DE CONTRASEÑA */}
+          {modoEdicion === 'cambiar_password' && (
+            <form onSubmit={handleGuardarPassword} className="profile-edit-form">
+              <h4 className="subform-title">Actualizar Contraseña</h4>
+
+              {errorPassword && (
+                <div className="error-message" style={{ marginBottom: '0.6rem' }}>
+                  {errorPassword}
+                </div>
+              )}
+
+              <div className="form-group">
+                <label>Contraseña Actual *</label>
+                <input
+                  type="password"
+                  value={passwordActual}
+                  onChange={(e) => {
+                    setPasswordActual(e.target.value);
+                    if (errorPassword) setErrorPassword('');
+                  }}
+                  placeholder="Ingresa tu clave actual"
+                  required
+                  autoFocus
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Nueva Contraseña *</label>
+                <input
+                  type="password"
+                  value={passwordNueva}
+                  onChange={(e) => {
+                    setPasswordNueva(e.target.value);
+                    if (errorPassword) setErrorPassword('');
+                  }}
+                  placeholder="Mínimo 6 caracteres"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Confirmar Nueva Contraseña *</label>
+                <input
+                  type="password"
+                  value={passwordConfirmar}
+                  onChange={(e) => {
+                    setPasswordConfirmar(e.target.value);
+                    if (errorPassword) setErrorPassword('');
+                  }}
+                  placeholder="Repite la nueva clave"
+                  required
+                />
+              </div>
+
+              <div className="profile-edit-buttons">
+                <button
+                  type="button"
+                  className="btn-cancel-edit"
+                  onClick={handleCancelar}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-save-edit">
+                  Actualizar Clave
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* Botón Cerrar Sesión */}
           <div className="profile-footer-actions">
             <button
               type="button"

@@ -81,7 +81,7 @@
   color: var(--color-turquoise) !important;
   letter-spacing: -0.6px !important;
   line-height: 1.15 !important;
-  text-shadow: none !important; /* Elimina cualquier resplandor azul o neón */
+  text-shadow: none !important;
   filter: none !important;
   margin: 0 !important;
 }
@@ -121,6 +121,17 @@
   text-align: left;
 }
 
+/* Fila doble para Nombre y Apellido */
+.input-row-double {
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.input-row-double .input-group {
+  flex: 1;
+}
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -130,14 +141,14 @@
 .input-group label {
   font-size: 0.74rem !important;
   font-weight: 700 !important;
-  color: var(--primary-color) !important; /* Café oscuro nítido sobre fondo beige */
+  color: var(--primary-color) !important;
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
 }
 
 .input-group input {
   width: 100% !important;
-  background-color: var(--bg-surface) !important; /* Blanco mate limpio */
+  background-color: var(--bg-surface) !important;
   border: 1.5px solid var(--border-light) !important;
   border-radius: 12px !important;
   padding: 0.75rem 0.9rem !important;

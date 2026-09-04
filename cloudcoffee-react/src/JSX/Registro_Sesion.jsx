@@ -3,7 +3,8 @@ import '../CSS/Registro_Sesion.css';
 
 export default function RegistroSesion({ onBack, onNavigateToLogin }) {
   const [formData, setFormData] = useState({
-    nombreCompleto: '',
+    nombre: '',
+    apellido: '',
     email: '',
     telefono: '',
     password: '',
@@ -23,13 +24,52 @@ export default function RegistroSesion({ onBack, onNavigateToLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.nombre.trim() || !formData.apellido.trim()) {
+      setError('Por favor ingresa tu nombre y apellido.');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden.');
       return;
     }
+
     setCargando(true);
+
+    // Payload exacto esperado por POST /auth/register
+    const payload = {
+      nombre: formData.nombre.trim(),
+      apellido: formData.apellido.trim(),
+      email: formData.email.trim().toLowerCase(),
+      telefono: formData.telefono.trim(),
+      password: formData.password
+    };
+
     setTimeout(() => {
       setCargando(false);
+      
+      // Sincroniza datos base locales para Mi_Perfil y Consumidor_Main
+      const fullName = `${payload.nombre} ${payload.apellido}`;
+      localStorage.setItem('user_name', fullName);
+      localStorage.setItem('user_email', payload.email);
+      localStorage.setItem('user_phone', payload.telefono);
+      localStorage.setItem(
+        'user_profile_data',
+        JSON.stringify({
+          nombre: fullName,
+          email: payload.email,
+          telefono: payload.telefono,
+          carrera: 'Ingeniería Civil en Informática'
+        })
+      );
+
+      alert(`¡Cuenta registrada exitosamente para ${payload.nombre}! Ya puedes iniciar sesión.`);
       onNavigateToLogin();
     }, 1000);
   };
@@ -54,26 +94,42 @@ export default function RegistroSesion({ onBack, onNavigateToLogin }) {
           {error && <div className="error-message">{error}</div>}
 
           <form className="register-form" onSubmit={handleSubmit}>
-            <div className="input-group">
-              <label htmlFor="nombreCompleto">Nombre Completo</label>
-              <input
-                type="text"
-                id="nombreCompleto"
-                name="nombreCompleto"
-                placeholder="Ej. Francisca Pérez"
-                value={formData.nombreCompleto}
-                onChange={handleChange}
-                required
-              />
+            {/* Campos separados: Nombre y Apellido en fila doble */}
+            <div className="input-row-double">
+              <div className="input-group">
+                <label htmlFor="nombre">Nombre</label>
+                <input
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  placeholder="Ej. Francisca"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="apellido">Apellido</label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  placeholder="Ej. Pérez"
+                  value={formData.apellido}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className="input-group">
-              <label htmlFor="email">Correo Electrónico</label>
+              <label htmlFor="email">Correo Institucional o Personal</label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder="ejemplo@uct.cl o personal"
+                placeholder="ejemplo@uct.cl"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -81,7 +137,7 @@ export default function RegistroSesion({ onBack, onNavigateToLogin }) {
             </div>
 
             <div className="input-group">
-              <label htmlFor="telefono">Teléfono</label>
+              <label htmlFor="telefono">Teléfono de Contacto</label>
               <input
                 type="tel"
                 id="telefono"

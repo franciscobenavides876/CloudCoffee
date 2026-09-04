@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import '../CSS/App.css';
+import '../CSS/Complementarias.css';
+
+// Pantallas principales
 import InicioSesion from './Inicio_Sesion';
 import RegistroSesion from './Registro_Sesion';
 import OlvidasteContraseña from './Olvidaste_Contraseña';
@@ -11,11 +14,22 @@ import MiPerfil from './Mi_Perfil';
 import SuperAdmin from './Super_Admin';
 import CajeroMain from './Cajero_Main';
 
+// Pantallas complementarias (Punto 5)
+import DetalleProducto from './Detalle_Producto';
+import ResultadoPago from './Resultado_Pago';
+import VerificarCorreo from './Verificar_Correo';
+import CambiarContraseña from './Cambiar_Contraseña';
+
 export default function App() {
   const [vistaActual, setVistaActual] = useState('inicio');
   const [campusSeleccionado, setCampusSeleccionado] = useState(
     localStorage.getItem('selected_campus_name') || 'Campus San Francisco'
   );
+
+  // Estados de datos contextuales para navegación fluida
+  const [productoDetalle, setProductoDetalle] = useState(null);
+  const [lastCompletedOrder, setLastCompletedOrder] = useState(null);
+  const [pendingVerificationEmail, setPendingVerificationEmail] = useState('');
 
   const handleLoginSuccess = (userData) => {
     if (userData?.isCajero) {
@@ -34,6 +48,32 @@ export default function App() {
     setVistaActual('inicio');
   };
 
+  // Función para agregar al carrito desde el detalle extendido
+  const handleAddToCartFromDetail = (product, offer, quantity) => {
+    const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+    const existingIndex = savedCart.findIndex(
+      (item) => item.id === product.id && item.cafeId === offer.cafeId
+    );
+
+    if (existingIndex > -1) {
+      savedCart[existingIndex].quantity += quantity;
+    } else {
+      savedCart.push({
+        id: product.id,
+        name: product.name,
+        price: offer.price,
+        cafeId: offer.cafeId,
+        cafeName: offer.cafeName,
+        quantity: quantity
+      });
+    }
+
+    localStorage.setItem('cart_items', JSON.stringify(savedCart));
+    alert(`✓ ${quantity}x "${product.name}" agregado(s) al carrito.`);
+    setVistaActual('carrito');
+  };
+
+  // --- 1. FLUJOS DE AUTENTICACIÓN Y REGISTRO ---
   if (vistaActual === 'login') {
     return (
       <InicioSesion 
@@ -45,6 +85,38 @@ export default function App() {
     );
   }
 
+  if (vistaActual === 'registro') {
+    return (
+      <RegistroSesion 
+        onBack={() => setVistaActual('inicio')}
+        onNavigateToLogin={() => setVistaActual('login')}
+        onRegistrationSuccess={(email) => {
+          setPendingVerificationEmail(email);
+          setVistaActual('verificar_correo');
+        }}
+      />
+    );
+  }
+
+  if (vistaActual === 'verificar_correo') {
+    return (
+      <VerificarCorreo 
+        email={pendingVerificationEmail}
+        onVerifySuccess={() => setVistaActual('login')}
+      />
+    );
+  }
+
+  if (vistaActual === 'reset') {
+    return (
+      <OlvidasteContraseña 
+        onBack={() => setVistaActual('login')}
+        onNavigateToLogin={() => setVistaActual('login')}
+      />
+    );
+  }
+
+  // --- 2. ROLES DE CAJERO Y SUPERADMIN ---
   if (vistaActual === 'cajero') {
     return (
       <CajeroMain 
@@ -62,6 +134,7 @@ export default function App() {
     );
   }
 
+  // --- 3. FLUJO DE CONSUMIDOR Y CATÁLOGO ---
   if (vistaActual === 'consumidor') {
     return (
       <ConsumidorMain 
@@ -70,15 +143,20 @@ export default function App() {
         onNavigateToCart={() => setVistaActual('carrito')}
         onNavigateToOrders={() => setVistaActual('mis_pedidos')}
         onNavigateToProfile={() => setVistaActual('perfil')}
+        onSelectProductDetail={(product) => {
+          setProductoDetalle(product);
+          setVistaActual('detalle_producto');
+        }}
       />
     );
   }
 
-  if (vistaActual === 'perfil') {
+  if (vistaActual === 'detalle_producto') {
     return (
-      <MiPerfil
+      <DetalleProducto 
+        product={productoDetalle}
         onBack={() => setVistaActual('consumidor')}
-        onLogout={handleLogout}
+        onAddToCart={handleAddToCartFromDetail}
       />
     );
   }
@@ -99,8 +177,21 @@ export default function App() {
     return (
       <Carrito 
         onBack={() => setVistaActual('consumidor')}
-        onCheckoutSuccess={() => setVistaActual('mis_pedidos')}
+        onCheckoutSuccess={(orderInfo) => {
+          setLastCompletedOrder(orderInfo || { folio: 'CC-9805', total: 4300 });
+          setVistaActual('resultado_pago');
+        }}
         onGoToOrders={() => setVistaActual('mis_pedidos')}
+      />
+    );
+  }
+
+  if (vistaActual === 'resultado_pago') {
+    return (
+      <ResultadoPago 
+        orderData={lastCompletedOrder}
+        onGoToOrders={() => setVistaActual('mis_pedidos')}
+        onGoToHome={() => setVistaActual('consumidor')}
       />
     );
   }
@@ -113,35 +204,35 @@ export default function App() {
     );
   }
 
-  if (vistaActual === 'registro') {
+  // --- 4. PERFIL Y SEGURIDAD AUTENTICADA ---
+  if (vistaActual === 'perfil') {
     return (
-      <RegistroSesion 
-        onBack={() => setVistaActual('inicio')}
-        onNavigateToLogin={() => setVistaActual('login')}
+      <MiPerfil
+        onBack={() => setVistaActual('consumidor')}
+        onLogout={handleLogout}
+        onNavigateToChangePassword={() => setVistaActual('cambiar_password')}
       />
     );
   }
 
-  if (vistaActual === 'reset') {
+  if (vistaActual === 'cambiar_password') {
     return (
-      <OlvidasteContraseña 
-        onBack={() => setVistaActual('login')}
-        onNavigateToLogin={() => setVistaActual('login')}
+      <CambiarContraseña 
+        onBack={() => setVistaActual('perfil')}
+        onSuccess={() => setVistaActual('perfil')}
       />
     );
   }
 
-  // Portada Inicial
+  // --- 5. PORTADA INICIAL ---
   return (
     <div className="mobile-wrapper">
       <div className="screen-container">
         
-        {/* Cabecera Título CloudCoffee */}
         <header className="brand-header-centered">
           <h1 className="title" style={{ color: '#0284C7' }}>CloudCoffee</h1>
         </header>
 
-        {/* Zona de Imagen */}
         <div className="image-wrapper">
           <img 
             src={process.env.PUBLIC_URL + '/Imagenes/Portada.png'} 
@@ -150,7 +241,6 @@ export default function App() {
           />
         </div>
 
-        {/* Panel Inferior */}
         <div className="content">
           <p className="subtitle">
             Pide tu café y snacks con anticipación para retirar sin esperas en el campus.

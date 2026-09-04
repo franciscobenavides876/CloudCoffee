@@ -5,71 +5,83 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
   // 'pedidos' | 'inventario' | 'no_retirados'
   const [activeTab, setActiveTab] = useState('pedidos');
 
+  // --- FILTRO Y BÚSQUEDA EN PESTAÑA PEDIDOS ---
+  const [searchQuery, setSearchQuery] = useState('');
+  const [orderStatusFilter, setOrderStatusFilter] = useState('todos'); // 'todos' | 'pagado' | 'listo'
+
+  // --- FILTRO Y BÚSQUEDA EN PESTAÑA INVENTARIO / STOCK ---
+  const [searchInventoryQuery, setSearchInventoryQuery] = useState('');
+  const [categoryInventoryFilter, setCategoryInventoryFilter] = useState('todos');
+
   // --- 3.2.3 ESTADO DE ÓRDENES ACTIVAS ---
   const [orders, setOrders] = useState(() => {
     const savedOrders = localStorage.getItem('cajero_orders');
-    return savedOrders ? JSON.parse(savedOrders) : [
-      {
-        id: 'PED-101',
-        folio: 'CC-9801',
-        hashQR: 'hash_sha256_mock_101',
-        cliente: 'Ignacio Soto',
-        email: 'ignacio.soto@uct.cl',
-        hora: '10:15 AM',
-        cafeName: 'Cafetería Central',
-        items: [
-          { ordenItemId: 'ITM-101-1', name: 'Café Americano 12oz', qty: 1, price: 1800, ofertaId: 1 },
-          { ordenItemId: 'ITM-101-2', name: 'Croissant Jamón y Queso', qty: 1, price: 2500, ofertaId: 2 }
-        ],
-        total: 4300,
-        status: 'listo' // 'pagado' | 'listo' | 'entregado' | 'no_retirado_revision'
-      },
-      {
-        id: 'PED-102',
-        folio: 'CC-9802',
-        hashQR: 'hash_sha256_mock_102',
-        cliente: 'Camila Vergara',
-        email: 'camila.v@uct.cl',
-        hora: '10:22 AM',
-        cafeName: 'Cafetería Central',
-        items: [
-          { ordenItemId: 'ITM-102-1', name: 'Jugo Natural Naranja 300ml', qty: 2, price: 2000, ofertaId: 4 }
-        ],
-        total: 4000,
-        status: 'pagado'
-      }
-    ];
+    return savedOrders
+      ? JSON.parse(savedOrders)
+      : [
+          {
+            id: 'PED-101',
+            folio: 'CC-9801',
+            hashQR: 'hash_sha256_mock_101',
+            cliente: 'Ignacio Soto',
+            email: 'ignacio.soto@uct.cl',
+            hora: '10:15 AM',
+            cafeName: 'Cafetería Central',
+            items: [
+              { ordenItemId: 'ITM-101-1', name: 'Café Americano 12oz', qty: 1, price: 1800, ofertaId: 1 },
+              { ordenItemId: 'ITM-101-2', name: 'Croissant Jamón y Queso', qty: 1, price: 2500, ofertaId: 2 }
+            ],
+            total: 4300,
+            status: 'listo' // 'pagado' | 'listo' | 'entregado' | 'no_retirado_revision'
+          },
+          {
+            id: 'PED-102',
+            folio: 'CC-9802',
+            hashQR: 'hash_sha256_mock_102',
+            cliente: 'Camila Vergara',
+            email: 'camila.v@uct.cl',
+            hora: '10:22 AM',
+            cafeName: 'Cafetería Central',
+            items: [
+              { ordenItemId: 'ITM-102-1', name: 'Jugo Natural Naranja 300ml', qty: 2, price: 2000, ofertaId: 4 }
+            ],
+            total: 4000,
+            status: 'pagado'
+          }
+        ];
   });
 
   // --- 3.2.5 INVENTARIO Y CONTROL DE STOCK ---
   const [inventory, setInventory] = useState(() => {
     const savedProducts = JSON.parse(localStorage.getItem('admin_products') || '[]');
-    return savedProducts.length > 0 ? savedProducts : [
-      {
-        id: 1,
-        name: 'Café Americano 12oz',
-        category: 'Café',
-        offers: [{ cafeName: currentCafeName, stock: 15, inStock: true, price: 1800 }]
-      },
-      {
-        id: 2,
-        name: 'Croissant Jamón y Queso',
-        category: 'Pastelería',
-        offers: [{ cafeName: currentCafeName, stock: 8, inStock: true, price: 2500 }]
-      },
-      {
-        id: 3,
-        name: 'Sándwich Ave Palta',
-        category: 'Sándwiches',
-        offers: [{ cafeName: currentCafeName, stock: 0, inStock: false, price: 3200 }]
-      },
-      {
-        id: 4,
-        name: 'Jugo Natural Naranja 300ml',
-        category: 'Bebidas',
-        offers: [{ cafeName: currentCafeName, stock: 12, inStock: true, price: 2000 }]
-      }
-    ];
+    return savedProducts.length > 0
+      ? savedProducts
+      : [
+          {
+            id: 1,
+            name: 'Café Americano 12oz',
+            category: 'Café',
+            offers: [{ cafeName: currentCafeName, stock: 15, inStock: true, price: 1800 }]
+          },
+          {
+            id: 2,
+            name: 'Croissant Jamón y Queso',
+            category: 'Pastelería',
+            offers: [{ cafeName: currentCafeName, stock: 8, inStock: true, price: 2500 }]
+          },
+          {
+            id: 3,
+            name: 'Sándwich Ave Palta',
+            category: 'Sándwiches',
+            offers: [{ cafeName: currentCafeName, stock: 0, inStock: false, price: 3200 }]
+          },
+          {
+            id: 4,
+            name: 'Jugo Natural Naranja 300ml',
+            category: 'Bebidas',
+            offers: [{ cafeName: currentCafeName, stock: 12, inStock: true, price: 2000 }]
+          }
+        ];
   });
 
   // --- 3.2.6 ÓRDENES NO RETIRADAS PENDIENTES DE REVISIÓN ---
@@ -78,19 +90,21 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
 
   const [noRetiradosList, setNoRetiradosList] = useState(() => {
     const saved = localStorage.getItem('cajero_no_retirados');
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 'PED-099',
-        folio: 'CC-9780',
-        cliente: 'Diego Morales',
-        fecha: todayDateStr,
-        cafeName: 'Cafetería Central',
-        items: [
-          { ordenItemId: 'NR-1', name: 'Muffin Chocolate', qty: 2, ofertaId: 2, accion: null },
-          { ordenItemId: 'NR-2', name: 'Bebida Coca-Cola 350ml', qty: 1, ofertaId: 4, accion: null }
-        ]
-      }
-    ];
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            id: 'PED-099',
+            folio: 'CC-9780',
+            cliente: 'Diego Morales',
+            fecha: todayDateStr,
+            cafeName: 'Cafetería Central',
+            items: [
+              { ordenItemId: 'NR-1', name: 'Muffin Chocolate', qty: 2, ofertaId: 2, accion: null },
+              { ordenItemId: 'NR-2', name: 'Bebida Coca-Cola 350ml', qty: 1, ofertaId: 4, accion: null }
+            ]
+          }
+        ];
   });
 
   // --- 3.2.4 VALIDACIÓN QR Y FOLIO ---
@@ -124,7 +138,9 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
     }
 
     setOrders((prev) =>
-      prev.map((ord) => (ord.id === orderToValidate.id ? { ...ord, status: 'entregado', qrUsado: true } : ord))
+      prev.map((ord) =>
+        ord.id === orderToValidate.id ? { ...ord, status: 'entregado', qrUsado: true } : ord
+      )
     );
 
     setShowQRScanner(false);
@@ -214,7 +230,36 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
     alert(`✓ POST /orders/${orden.id}/no-retirado/revisar: Orden procesada y stock sincronizado.`);
   };
 
+  // --- FILTROS CALCULADOS DE PEDIDOS ---
   const activeOrders = orders.filter((o) => o.status !== 'entregado');
+
+  const filteredOrders = activeOrders.filter((o) => {
+    const matchesStatus = orderStatusFilter === 'todos' || o.status === orderStatusFilter;
+    const q = searchQuery.trim().toLowerCase();
+    const matchesQuery =
+      !q ||
+      o.cliente.toLowerCase().includes(q) ||
+      o.folio.toLowerCase().includes(q) ||
+      o.id.toLowerCase().includes(q);
+
+    return matchesStatus && matchesQuery;
+  });
+
+  // --- FILTROS CALCULADOS DE STOCK ---
+  const availableCategories = ['todos', ...Array.from(new Set(inventory.map((p) => p.category).filter(Boolean)))];
+
+  const filteredInventory = inventory.filter((prod) => {
+    const matchesCategory =
+      categoryInventoryFilter === 'todos' || prod.category === categoryInventoryFilter;
+    const q = searchInventoryQuery.trim().toLowerCase();
+    const matchesQuery =
+      !q ||
+      prod.name.toLowerCase().includes(q) ||
+      (prod.category && prod.category.toLowerCase().includes(q));
+
+    return matchesCategory && matchesQuery;
+  });
+
   const noRetiradosFiltrados = noRetiradosList.filter((o) => o.fecha === selectedFechaNoRetirados);
 
   return (
@@ -288,13 +333,63 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
                 </form>
               </div>
 
+              {/* BARRA DE BÚSQUEDA Y FILTRO DE CATEGORÍAS/ESTADO DE PEDIDOS */}
+              <div className="cajero-filter-controls">
+                <div className="search-input-wrapper">
+                  <input
+                    type="text"
+                    className="cajero-filter-input"
+                    placeholder="🔍 Buscar cliente, folio o ID..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      className="btn-clear-search"
+                      onClick={() => setSearchQuery('')}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="status-filter-chips">
+                  <button
+                    type="button"
+                    className={`chip-filter ${orderStatusFilter === 'todos' ? 'active' : ''}`}
+                    onClick={() => setOrderStatusFilter('todos')}
+                  >
+                    Todos ({activeOrders.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`chip-filter ${orderStatusFilter === 'pagado' ? 'active' : ''}`}
+                    onClick={() => setOrderStatusFilter('pagado')}
+                  >
+                    🔵 Pagados ({activeOrders.filter((o) => o.status === 'pagado').length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`chip-filter ${orderStatusFilter === 'listo' ? 'active' : ''}`}
+                    onClick={() => setOrderStatusFilter('listo')}
+                  >
+                    🟢 Listos ({activeOrders.filter((o) => o.status === 'listo').length})
+                  </button>
+                </div>
+              </div>
+
               <div className="cajero-orders-list">
-                {activeOrders.length === 0 ? (
+                {filteredOrders.length === 0 ? (
                   <div className="mobile-empty-state">
-                    <p>No hay pedidos pendientes para entrega en {currentCafeName}.</p>
+                    <p>
+                      {activeOrders.length === 0
+                        ? `No hay pedidos pendientes para entrega en ${currentCafeName}.`
+                        : 'No se encontraron pedidos con el filtro actual.'}
+                    </p>
                   </div>
                 ) : (
-                  activeOrders.map((order) => (
+                  filteredOrders.map((order) => (
                     <div key={order.id} className="mobile-order-card">
                       <div className="m-order-header">
                         <div>
@@ -366,42 +461,83 @@ export default function CajeroMain({ onLogout, currentCafeName = 'Cafetería Cen
                 3.2.5: Como cajero puedes aumentar o reducir las unidades en stock. Los precios y estados base están reservados al administrador.
               </div>
 
+              {/* BARRA DE BÚSQUEDA Y FILTRO DE CATEGORÍAS DE STOCK */}
+              <div className="cajero-filter-controls">
+                <div className="search-input-wrapper">
+                  <input
+                    type="text"
+                    className="cajero-filter-input"
+                    placeholder="🔍 Buscar producto en stock..."
+                    value={searchInventoryQuery}
+                    onChange={(e) => setSearchInventoryQuery(e.target.value)}
+                  />
+                  {searchInventoryQuery && (
+                    <button
+                      type="button"
+                      className="btn-clear-search"
+                      onClick={() => setSearchInventoryQuery('')}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="status-filter-chips">
+                  {availableCategories.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`chip-filter ${categoryInventoryFilter === cat ? 'active' : ''}`}
+                      onClick={() => setCategoryInventoryFilter(cat)}
+                    >
+                      {cat === 'todos' ? `Todos (${inventory.length})` : cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="cajero-inventory-list">
-                {inventory.map((prod) => {
-                  const offer = prod.offers?.[0] || { stock: 0, inStock: false, price: 0 };
-                  const currentStock = offer.stock ?? (offer.inStock ? 10 : 0);
+                {filteredInventory.length === 0 ? (
+                  <div className="mobile-empty-state">
+                    <p>No se encontraron productos que coincidan con la búsqueda.</p>
+                  </div>
+                ) : (
+                  filteredInventory.map((prod) => {
+                    const offer = prod.offers?.[0] || { stock: 0, inStock: false, price: 0 };
+                    const currentStock = offer.stock ?? (offer.inStock ? 10 : 0);
 
-                  return (
-                    <div key={prod.id} className="mobile-stock-item">
-                      <div className="m-stock-info">
-                        <strong>{prod.name}</strong>
-                        <span className="m-stock-category">{prod.category}</span>
-                        <small>Precio: ${offer.price?.toLocaleString('es-CL')}</small>
-                      </div>
+                    return (
+                      <div key={prod.id} className="mobile-stock-item">
+                        <div className="m-stock-info">
+                          <strong>{prod.name}</strong>
+                          <span className="m-stock-category">{prod.category}</span>
+                          <small>Precio: ${offer.price?.toLocaleString('es-CL')}</small>
+                        </div>
 
-                      <div className="m-stock-stepper">
-                        <button
-                          type="button"
-                          className="btn-stepper"
-                          onClick={() => handleUpdateStockUnits(prod.id, -1)}
-                          disabled={currentStock <= 0}
-                        >
-                          -
-                        </button>
-                        <span className={`stock-counter-badge ${currentStock === 0 ? 'out' : ''}`}>
-                          {currentStock} un.
-                        </span>
-                        <button
-                          type="button"
-                          className="btn-stepper"
-                          onClick={() => handleUpdateStockUnits(prod.id, 1)}
-                        >
-                          +
-                        </button>
+                        <div className="m-stock-stepper">
+                          <button
+                            type="button"
+                            className="btn-stepper"
+                            onClick={() => handleUpdateStockUnits(prod.id, -1)}
+                            disabled={currentStock <= 0}
+                          >
+                            -
+                          </button>
+                          <span className={`stock-counter-badge ${currentStock === 0 ? 'out' : ''}`}>
+                            {currentStock} un.
+                          </span>
+                          <button
+                            type="button"
+                            className="btn-stepper"
+                            onClick={() => handleUpdateStockUnits(prod.id, 1)}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
           )}

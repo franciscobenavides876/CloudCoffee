@@ -154,6 +154,13 @@
   color: var(--text-main);
 }
 
+.profile-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
 .btn-edit-profile {
   background-color: #EFF6FF;
   border: 1.5px solid #BFDBFE;
@@ -163,7 +170,22 @@
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
-  margin-top: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.btn-edit-profile:hover {
+  background-color: #DBEAFE;
+}
+
+.btn-edit-pwd {
+  background-color: #F8FAFC !important;
+  color: #1E293B !important;
+  border: 1.5px solid #E2E8F0 !important;
+}
+
+.btn-edit-pwd:hover {
+  background-color: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
 }
 
 /* Formulario de Edición */
@@ -171,6 +193,13 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+}
+
+.subform-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  margin: 0 0 0.25rem 0;
 }
 
 .profile-edit-form .form-group {
@@ -194,6 +223,12 @@
   background-color: var(--bg-mobile);
   outline: none;
   font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.profile-edit-form input:focus {
+  border-color: var(--primary-blue);
 }
 
 /* Estilos para inputs de solo lectura y bloqueados */
@@ -229,6 +264,10 @@
   cursor: pointer;
 }
 
+.btn-cancel-edit:hover {
+  background: #E5E7EB;
+}
+
 .btn-save-edit {
   flex: 1.5;
   background: var(--primary-blue);
@@ -239,6 +278,11 @@
   font-weight: 700;
   font-size: 0.76rem;
   cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-save-edit:hover {
+  opacity: 0.92;
 }
 
 /* Footer con Cerrar Sesión */
@@ -257,4 +301,9 @@
   font-weight: 800;
   font-size: 0.78rem;
   cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-logout-profile:hover {
+  background: #FECACA;
 }
